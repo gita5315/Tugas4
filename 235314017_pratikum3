@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Tugas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            animation: fadeIn 1s ease-in-out;
+            color: #333;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            color: #6a11cb;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 3px solid #6a11cb;
+        }
+        .header h1, .header p {
+            color: #6a11cb;
+        }
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #6a11cb;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #6a11cb;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .input-group input:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 8px rgba(37, 117, 252, 0.5);
+        }
+        .button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .button:hover {
+            background-color: #2575fc;
+            transform: translateY(-2px);
+        }
+        .hidden {
+            display: none;
+        }
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: rgba(106, 17, 203, 0.1);
+            border-radius: 10px;
+            animation: slideIn 0.5s ease-in-out;
+            border: 2px solid #6a11cb;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result h2 {
+            color: #6a11cb;
+            margin-bottom: 1rem;
+        }
+        .result p {
+            color: #333;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="DSCF6972.JPG" alt="Foto">
+            <h1>Nama : Maria Regina Nula Lewar</h1>
+            <p>NIM : 235314017</p>
+        </div>
+        <h1>List Tugas</h1>
+        <div class="input-group">
+            <label for="nama">Nama:</label>
+            <input type="text" id="nama" placeholder="Masukkan Nama">
+        </div>
+        <div class="input-group">
+            <label for="jumlahPilihan">Jumlah Pilihan:</label>
+            <input type="number" id="jumlahPilihan" placeholder="Masukkan Jumlah Pilihan">
+        </div>
+        <button class="button" onclick="tampilkanInputPilihan()">OK</button>
+
+        <div id="pilihanContainer" class="hidden">
+            <h2>Pilihan</h2>
+            <div id="pilihanInputs"></div>
+            <button class="button" onclick="tampilkanPilihan()">OK</button>
+        </div>
+
+        <div id="pilihanRadio" class="hidden">
+            <h2>Pilihan Anda</h2>
+            <div id="radioButtons"></div>
+            <button class="button" onclick="tampilkanHasil()">OK</button>
+        </div>
+
+        <div id="hasil" class="hidden result">
+            <h2>Hasil</h2>
+            <p id="hasilText"></p>
+        </div>
+    </div>
+
+    <script>
+        function tampilkanInputPilihan() {
+            const nama = document.getElementById('nama').value;
+            const jumlahPilihan = parseInt(document.getElementById('jumlahPilihan').value);
+
+            if (nama && jumlahPilihan > 0) {
+                let pilihanInputs = '';
+                for (let i = 1; i <= jumlahPilihan; i++) {
+                    pilihanInputs += `
+                        <div class="input-group">
+                            <label for="pilihan${i}">Pilihan ${i}:</label>
+                            <input type="text" id="pilihan${i}" placeholder="Masukkan Pilihan ${i}">
+                        </div>`;
+                }
+                document.getElementById('pilihanInputs').innerHTML = pilihanInputs;
+                document.getElementById('pilihanContainer').classList.remove('hidden');
+            } else {
+                alert('Silakan isi Nama dan Jumlah Pilihan dengan benar.');
+            }
+        }
+
+        function tampilkanPilihan() {
+            const jumlahPilihan = parseInt(document.getElementById('jumlahPilihan').value);
+            let radioButtons = '';
+            for (let i = 1; i <= jumlahPilihan; i++) {
+                const pilihan = document.getElementById(`pilihan${i}`).value;
+                if (pilihan) {
+                    radioButtons += `
+                        <div class="input-group">
+                            <input type="radio" id="radioPilihan${i}" name="pilihan" value="${pilihan}">
+                            <label for="radioPilihan${i}">${pilihan}</label>
+                        </div>`;
+                }
+            }
+            if (radioButtons) {
+                document.getElementById('radioButtons').innerHTML = radioButtons;
+                document.getElementById('pilihanRadio').classList.remove('hidden');
+            } else {
+                alert('Silakan isi semua pilihan.');
+            }
+        }
+
+        function tampilkanHasil() {
+            const nama = document.getElementById('nama').value;
+            const jumlahPilihan = parseInt(document.getElementById('jumlahPilihan').value);
+            const selectedPilihan = document.querySelector('input[name="pilihan"]:checked').value;
+
+            let pilihanText = '';
+            for (let i = 1; i <= jumlahPilihan; i++) {
+                const pilihan = document.getElementById(`pilihan${i}`).value;
+                pilihanText += `${pilihan}, `;
+            }
+            pilihanText = pilihanText.slice(0, -2);
+
+            const hasilText = `Hallo, nama saya ${nama}, saya mempunyai sejumlah ${jumlahPilihan} pilihan yaitu ${pilihanText}, dan saya memilih ${selectedPilihan}.`;
+            document.getElementById('hasilText').innerText = hasilText;
+            document.getElementById('hasil').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
